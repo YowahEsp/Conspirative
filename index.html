@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Teorías Conspirativas y Versiones Alternativas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="theme-color" content="#37474f">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --bg: #f5f5f5;
+      --card: #fff;
+      --accent: #37474f;
+      --text: #222;
+      --muted: #666;
+      --column-bg-es: #eceff1;
+      --column-bg-en: #e8f5e9;
+      --success: #4caf50;
+      --warning: #ff9800;
+      --error: #f44336;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 20px 12px;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-text-size-adjust: 100%;
+      -webkit-font-smoothing: antialiased;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+      position: relative;
+    }
+    header h1 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    header p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 20px;
+    }
+    .language-toggle {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 20px;
+      padding: 8px 16px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+    }
+    .language-toggle:active { transform: scale(0.95); }
+    .column {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 18px;
+      box-shadow: 0 3px 10px rgba(0,0,0,.08);
+      width: 100%;
+      display: none;
+    }
+    .column.active { display: block; }
+    .column-es { background: var(--column-bg-es); display: block; }
+    .column-en { background: var(--column-bg-en); }
+    .column-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--accent);
+    }
+    .column-header h2 { font-size: 1.3rem; }
+    .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 18px; }
+    .card {
+      background: var(--card);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 3px 6px rgba(0,0,0,.06);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    .card.visible { opacity: 1; transform: translateY(0); }
+    .card:hover { transform: translateY(-5px); box-shadow: 0 6px 12px rgba(0,0,0,.1); }
+    .card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+    }
+    .card-content { padding: 16px; }
+    .card-content h3 { font-size: 1.05rem; line-height: 1.4; margin-bottom: 10px; }
+    .card-content .source { font-size: 0.82rem; color: var(--muted); margin-bottom: 8px; }
+    .card-content .date { font-size: 0.78rem; color: var(--accent); margin-bottom: 8px; }
+    .card-content .description {
+      font-size: 0.87rem;
+      color: var(--muted);
+      margin-bottom: 12px;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .card-content a {
+      display: inline-block;
+      color: var(--accent);
+      font-weight: 600;
+      text-decoration: none;
+      padding: 4px 0;
+    }
+    .loading { text-align: center; padding: 50px 20px; color: var(--muted); grid-column: 1 / -1; }
+    .load-more {
+      display: block;
+      margin: 25px auto;
+      padding: 14px 30px;
+      border: none;
+      border-radius: 30px;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      transition: .3s;
+      box-shadow: 0 2px 6px rgba(0,0,0,.1);
+      min-width: 180px;
+      min-height: 48px;
+      touch-action: manipulation;
+    }
+    .load-more:active { background: #263238; transform: scale(0.97); }
+    .load-more:disabled { background: var(--muted); cursor: not-allowed; }
+    .error-message {
+      background: #ffebee;
+      color: #c62828;
+      padding: 12px;
+      border-radius: 8px;
+      margin: 10px 0;
+      border-left: 4px solid #c62828;
+      text-align: center;
+      font-size: 0.9rem;
+      grid-column: 1 / -1;
+    }
+    .api-status-panel {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 15px auto;
+      max-width: 600px;
+    }
+    .api-status-panel h3 {
+      font-size: 1rem;
+      margin-bottom: 12px;
+      text-align: center;
+      color: var(--accent);
+    }
+    .api-status-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+    }
+    .api-status-item:last-child { border-bottom: none; }
+    .api-name { font-weight: 600; font-size: 0.9rem; }
+    .status-indicator {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: inline-block;
+      transition: background-color 0.5s ease;
+    }
+    .status-indicator.connected { background: var(--success); }
+    .status-indicator.disconnected { background: var(--error); }
+    .status-text { font-size: 0.8rem; margin-left: 8px; color: var(--muted); }
+    .back-button {
+      display: block;margin: 20px auto;padding: 10px 20px;background: var(--muted);color: white;
+      border: none;border-radius: 20px;cursor: pointer;font-size: 0.9rem;
+    }
+    @media (max-width: 768px) {
+      .news-grid { grid-template-columns: 1fr; }
+      header h1 { font-size: 1.6rem; padding-right: 100px; }
+    }
+    @media (max-width: 480px) {
+      body { padding: 15px 10px; }
+      header h1 { font-size: 1.4rem; padding-right: 90px; }
+      .language-toggle { padding: 6px 12px; font-size: 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1><i class="fas fa-eye"></i> Teorías Conspirativas</h1>
+    <p>Noticias y artículos sobre versiones alternativas a las oficiales</p>
+    <button id="language-toggle" class="language-toggle">
+      <i class="fas fa-language"></i> English
+    </button>
+  </header>
+
+  <div id="api-status-panel" class="api-status-panel" style="display:none;">
+    <h3>Estado de las Conexiones API</h3>
+    <div class="api-status-item"><span class="api-name">GNews</span><div><span id="gnews-status" class="status-indicator disconnected"></span><span class="status-text">...</span></div></div>
+    <div class="api-status-item"><span class="api-name">NewsAPI</span><div><span id="newsapi-status" class="status-indicator disconnected"></span><span class="status-text">...</span></div></div>
+    <div class="api-status-item"><span class="api-name">NewsData</span><div><span id="newsdata-status" class="status-indicator disconnected"></span><span class="status-text">...</span></div></div>
+    <div class="api-status-item"><span class="api-name">MediaStack</span><div><span id="mediastack-status" class="status-indicator disconnected"></span><span class="status-text">...</span></div></div>
+    <div class="api-status-item"><span class="api-name">Currents</span><div><span id="currents-status" class="status-indicator disconnected"></span><span class="status-text">...</span></div></div>
+    <div class="api-status-item"><span class="api-name">TheNewsAPI</span><div><span id="thenewsapi-status" class="status-indicator disconnected"></span><span class="status-text">...</span></div></div>
+    <div class="api-status-item"><span class="api-name">NewsCatcher</span><div><span id="newscatcher-status" class="status-indicator disconnected"></span><span class="status-text">...</span></div></div>
+  </div>
+
+  <div id="column-es" class="column column-es">
+    <div class="column-header"><i class="fas fa-language"></i><h2>Noticias en Español</h2></div>
+    <div id="news-es" class="news-grid"><div class="loading"><i class="fas fa-spinner fa-spin"></i> Cargando noticias…</div></div>
+    <button id="load-more-es" class="load-more">Cargar más noticias</button>
+  </div>
+
+  <div id="column-en" class="column column-en">
+    <div class="column-header"><i class="fas fa-language"></i><h2>News in English</h2></div>
+    <div id="news-en" class="news-grid"><div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading news…</div></div>
+    <button id="load-more-en" class="load-more">Load more news</button>
+    <button id="back-button" class="back-button">Volver a español</button>
+  </div>
+
+  <script>
+    /* ---------- CONFIGURATION ---------- */
+    const API_KEYS = {
+        GNEWS:       '42dd93284a0abf72a9a646d3b4a9c33e',
+        NEWSAPI:     'aaf83dcbd8694668ad89247b959db678',
+        NEWSDATA:    'pub_a6e9ca27cc1644bf9a1cff0b8686b3eb',
+        MEDIASTACK:  'f8937b79760dc862781b4969cdff9d06',
+        THENEWSAPI:  '3e23f021-e766-4cd8-9e9d-3ce9634c4526', // Note: This key was labeled as CONTEXTUALWEB in one file
+        CURRENTS:    'Eh3k0BwkVhNGIWmkxaSVDGnZMIW5HxOT',
+        NEWS_CATCHER:'f88b103a-4f1d-4f19-a5e8-75124f32fb65' // Note: This key was labeled as WORLDNEWS in one file
+    };
+    const ARTICLES_PER_FETCH  = 25;   // How many articles each API should try to return
+    const ARTICLES_PER_CLICK  = 9;    // How many new articles to show when "Load More" is clicked
+    const CACHE_TARGET        = 100;  // Pre-fetch articles until the cache has at least this many
+    const FALLBACK_IMG        = 'https://images.unsplash.com/photo-1604871000636-074fa5117945?w=400&h=250&fit=crop';
+
+    /* ---------- KEYWORDS FOR FILTERING ---------- */
+    const KEYWORDS = {
+      es: /teoría conspirativa|versión alternativa|encubrimiento|falsa bandera|nuevo orden mundial|conspiración|estado profundo/gi,
+      en: /conspiracy theory|alternative narrative|cover-?up|false flag|new world order|deep state|hidden truth/gi
+    };
+
+    /* ---------- UTILITY FUNCTIONS ---------- */
+    const isRelevant = (t = '', d = '', lang) => KEYWORDS[lang].test((t + ' ' + d).toLowerCase());
+    
+    const dedup = arr => {
+      const seen = new Set();
+      return arr.filter(a => {
+        if (!a.url) return false;
+        const u = a.url.split('?')[0].replace(/\/$/, ''); // Normalize URL
+        if (seen.has(u)) return false;
+        seen.add(u);
+        return true;
+      });
+    };
+    
+    const bestImage = a => a.urlToImage || a.image || a.image_url || a.media || FALLBACK_IMG;
+
+    /* ---------- API STATUS & TRACKING ---------- */
+    const apiStatus = {};
+    function updateApiStatus(apiName, status) {
+        if (apiStatus[apiName] === status) return; // No change
+        apiStatus[apiName] = status;
+        const indicator = document.getElementById(`${apiName.toLowerCase()}-status`);
+        if (!indicator) return;
+        const text = indicator.nextElementSibling;
+        indicator.className = `status-indicator ${status ? 'connected' : 'disconnected'}`;
+        text.textContent = status ? 'Conectado' : 'Desconectado';
+    }
+
+    /* ---------- API FETCH WRAPPERS ---------- */
+    const fetchWithTimeout = (url, options = {}, timeout = 8000) => {
+      return Promise.race([
+          fetch(url, options),
+          new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), timeout))
+      ]);
+    };
+
+    async function fetchGNews(lang, page = 1) {
+        const q = lang === 'es' ? 'teoría conspirativa OR conspiración OR "falsa bandera"' : 'conspiracy theory OR "false flag"';
+        const url = `https://gnews.io/api/v4/search?q=${encodeURIComponent(q)}&lang=${lang}&max=${ARTICLES_PER_FETCH}&page=${page}&apikey=${API_KEYS.GNEWS}`;
+        try {
+            const r = await fetchWithTimeout(url);
+            if (!r.ok) throw new Error(`Status ${r.status}`);
+            const j = await r.json();
+            updateApiStatus('gnews', true);
+            return (j.articles || []).map(a => ({ ...a, urlToImage: a.image, source: { name: a.source?.name || 'GNews' }}));
+        } catch (e) {
+            console.error('GNews Error:', e.message);
+            updateApiStatus('gnews', false);
+            return [];
+        }
+    }
+
+    async function fetchNewsAPI(lang, page = 1) {
+        const q = lang === 'es' ? 'conspiración OR "versión alternativa"' : 'conspiracy OR "cover-up"';
+        const from = new Date(Date.now() - 28 * 864e5).toISOString().split('T')[0];
+        const target = `https://newsapi.org/v2/everything?q=${encodeURIComponent(q)}&language=${lang}&from=${from}&pageSize=${ARTICLES_PER_FETCH}&page=${page}&apiKey=${API_KEYS.NEWSAPI}`;
+        const proxy = 'https://corsproxy.io/?' + encodeURIComponent(target);
+        try {
+            const r = await fetchWithTimeout(proxy);
+            if (!r.ok) throw new Error(`Status ${r.status}`);
+            const j = await r.json();
+            if (j.status === 'error') throw new Error(j.message);
+            updateApiStatus('newsapi', true);
+            return j.articles || [];
+        } catch (e) {
+            console.error('NewsAPI Error:', e.message);
+            updateApiStatus('newsapi', false);
+            return [];
+        }
+    }
+
+    async function fetchNewsData(lang, page = 1) {
+        const q = lang === 'es' ? 'conspiración,alternativa' : 'conspiracy,cover-up';
+        const url = `https://newsdata.io/api/1/news?apikey=${API_KEYS.NEWSDATA}&q=${q}&language=${lang}&page=${page}`;
+        try {
+            const r = await fetchWithTimeout(url);
+            if (!r.ok) throw new Error(`Status ${r.status}`);
+            const j = await r.json();
+            if (j.status !== 'success') throw new Error('API returned error');
+            updateApiStatus('newsdata', true);
+            return (j.results || []).map(a => ({ title: a.title, description: a.description, url: a.link, urlToImage: a.image_url, publishedAt: a.pubDate, source: { name: a.source_id || 'NewsData' } }));
+        } catch (e) {
+            console.error('NewsData Error:', e.message);
+            updateApiStatus('newsdata', false);
+            return [];
+        }
+    }
+    
+    async function fetchMediaStack(lang, page = 1) {
+        const keywords = lang === 'es' ? 'conspiracion' : 'conspiracy';
+        const offset = (page - 1) * ARTICLES_PER_FETCH;
+        const url = `http://api.mediastack.com/v1/news?access_key=${API_KEYS.MEDIASTACK}&keywords=${keywords}&languages=${lang}&limit=${ARTICLES_PER_FETCH}&offset=${offset}`;
+        try {
+            const r = await fetchWithTimeout(url);
+            if (!r.ok) throw new Error(`Status ${r.status}`);
+            const j = await r.json();
+            updateApiStatus('mediastack', true);
+            return (j.data || []).map(a => ({...a, publishedAt: a.published_at, urlToImage: a.image, source: { name: a.source }}));
+        } catch(e) {
+            console.error('MediaStack Error:', e.message);
+            updateApiStatus('mediastack', false);
+            return [];
+        }
+    }
+
+    async function fetchCurrents(lang, page = 1) {
+        const keywords = lang === 'es' ? 'conspiracion' : 'conspiracy';
+        const url = `https://api.currentsapi.services/v1/search?apiKey=${API_KEYS.CURRENTS}&keywords=${keywords}&language=${lang}&page_size=${ARTICLES_PER_FETCH}&page_number=${page}`;
+        try {
+            const r = await fetchWithTimeout(url);
+            if (!r.ok) throw new Error(`Status ${r.status}`);
+            const j = await r.json();
+            updateApiStatus('currents', true);
+            return (j.news || []).map(a => ({...a, publishedAt: a.published, source: { name: a.author || 'Currents' }}));
+        } catch (e) {
+            console.error('Currents Error:', e.message);
+            updateApiStatus('currents', false);
+            return [];
+        }
+    }
+    
+    async function fetchTheNewsAPI(lang, page = 1) {
+        const search = lang === 'es' ? 'conspiración' : 'conspiracy';
+        const url = `https://api.thenewsapi.com/v1/news/all?api_token=${API_KEYS.THENEWSAPI}&search=${search}&language=${lang}&limit=3&page=${page}`; // Limit is low for this free tier
+        try {
+            const r = await fetchWithTimeout(url);
+            if (!r.ok) throw new Error(`Status ${r.status}`);
+            const j = await r.json();
+            updateApiStatus('thenewsapi', true);
+            return (j.data || []).map(a => ({...a, publishedAt: a.published_at, urlToImage: a.image_url, source: { name: a.source }}));
+        } catch (e) {
+            console.error('TheNewsAPI Error:', e.message);
+            updateApiStatus('thenewsapi', false);
+            return [];
+        }
+    }
+
+    async function fetchNewsCatcher(lang, page = 1) {
+        const q = lang === 'es' ? 'conspiración' : 'conspiracy';
+        const url = `https://api.newscatcherapi.com/v2/search?q=${q}&lang=${lang}&page_size=${ARTICLES_PER_FETCH}&page=${page}`;
+        try {
+            const r = await fetchWithTimeout(url, { headers: { 'x-api-key': API_KEYS.NEWS_CATCHER }});
+            if (!r.ok) throw new Error(`Status ${r.status}`);
+            const j = await r.json();
+            updateApiStatus('newscatcher', true);
+            return (j.articles || []).map(a => ({...a, publishedAt: a.published_date, urlToImage: a.media, source: { name: a.clean_url || 'NewsCatcher' }}));
+        } catch (e) {
+            console.error('NewsCatcher Error:', e.message);
+            updateApiStatus('newscatcher', false);
+            return [];
+        }
+    }
+
+
+    /* ---------- STREAMING LOADER & CACHE LOGIC ---------- */
+    const sources = [fetchGNews, fetchNewsAPI, fetchNewsData, fetchMediaStack, fetchCurrents, fetchTheNewsAPI, fetchNewsCatcher];
+    const cache = { es: [], en: [] };
+    const pages = { es: {}, en: {} }; // Tracks current page for each source/lang
+    const preloading = { es: false, en: false };
+
+    async function preload(lang) {
+        if (preloading[lang] || cache[lang].length >= CACHE_TARGET) return 0;
+        preloading[lang] = true;
+
+        const allPages = pages[lang];
+        const jobs = sources.map(fn => {
+            const page = (allPages[fn.name] || 0) + 1;
+            allPages[fn.name] = page;
+            return fn(lang, page);
+        });
+
+        const batches = await Promise.allSettled(jobs);
+        const raw = batches.flatMap(b => b.status === 'fulfilled' ? b.value : []);
+        const filtered = raw.filter(a => a.title && isRelevant(a.title, a.description, lang));
+        const newArticles = dedup([...cache[lang], ...filtered]).slice(cache[lang].length);
+        
+        cache[lang].push(...newArticles);
+        preloading[lang] = false;
+        
+        console.log(`[${lang.toUpperCase()}] Preloaded ${newArticles.length} new articles. Cache size: ${cache[lang].length}`);
+        return newArticles.length;
+    }
+
+    /* ---------- UI RENDERING ---------- */
+    const ui = {
+        newsEs: document.getElementById('news-es'),
+        newsEn: document.getElementById('news-en'),
+        loadEs: document.getElementById('load-more-es'),
+        loadEn: document.getElementById('load-more-en'),
+        columnEs: document.getElementById('column-es'),
+        columnEn: document.getElementById('column-en'),
+        langToggle: document.getElementById('language-toggle'),
+        backButton: document.getElementById('back-button'),
+    };
+    const renderedOffsets = { es: 0, en: 0 };
+
+    function renderArticles(lang) {
+        const container = lang === 'es' ? ui.newsEs : ui.newsEn;
+        const loadBtn = lang === 'es' ? ui.loadEs : ui.loadEn;
+        const offset = renderedOffsets[lang];
+        const articlesToRender = cache[lang].slice(offset, offset + ARTICLES_PER_CLICK);
+        
+        // Remove loading spinner if it's the first render
+        const loadingSpinner = container.querySelector('.loading');
+        if (loadingSpinner) loadingSpinner.remove();
+
+        if (offset === 0 && !articlesToRender.length) {
+            container.innerHTML = `<div class="error-message">${lang === 'es' ? 'No se encontraron noticias. Intenta más tarde.' : 'No news found. Please try again later.'}</div>`;
+            loadBtn.style.display = 'none';
+            return;
+        }
+
+        articlesToRender.forEach((a, i) => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            const date = a.publishedAt ? new Date(a.publishedAt).toLocaleDateString(lang === 'es' ? 'es-ES' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : 'Fecha no disponible';
+            const img = bestImage(a);
+
+            card.innerHTML = `
+              <img src="${img}" onerror="this.onerror=null;this.src='${FALLBACK_IMG}';" alt="">
+              <div class="card-content">
+                <span class="date">${date}</span>
+                <h3>${a.title || 'Título no disponible'}</h3>
+                <div class="source"><i class="fas fa-newspaper"></i> ${a.source?.name || 'Fuente desconocida'}</div>
+                ${a.description ? `<div class="description">${a.description}</div>` : ''}
+                <a href="${a.url}" target="_blank" rel="noopener noreferrer">${lang === 'es' ? 'Leer más →' : 'Read more →'}</a>
+              </div>`;
+            container.appendChild(card);
+            setTimeout(() => card.classList.add('visible'), i * 80);
+        });
+
+        renderedOffsets[lang] += articlesToRender.length;
+
+        // If we've rendered all cached articles, disable button
+        if (renderedOffsets[lang] >= cache[lang].length) {
+             loadBtn.disabled = true;
+             loadBtn.textContent = lang === 'es' ? 'No hay más noticias' : 'No more news';
+        } else {
+             loadBtn.disabled = false;
+             loadBtn.textContent = lang === 'es' ? 'Cargar más noticias' : 'Load more news';
+        }
+    }
+    
+    async function handleLoadMore(lang) {
+        const loadBtn = lang === 'es' ? ui.loadEs : ui.loadEn;
+        const initialText = loadBtn.textContent;
+        loadBtn.disabled = true;
+        loadBtn.textContent = lang === 'es' ? 'Cargando...' : 'Loading...';
+
+        // Check if we have enough articles in cache
+        if (renderedOffsets[lang] + ARTICLES_PER_CLICK > cache[lang].length) {
+            await preload(lang); // Fetch more if needed
+        }
+        
+        renderArticles(lang);
+    }
+
+    /* ---------- EVENT BINDINGS & INITIALIZATION ---------- */
+    ui.loadEs.addEventListener('click', () => handleLoadMore('es'));
+    ui.loadEn.addEventListener('click', () => handleLoadMore('en'));
+    
+    ui.langToggle.addEventListener('click', () => {
+        const isEsVisible = ui.columnEs.style.display !== 'none';
+        if (isEsVisible) {
+            ui.columnEs.style.display = 'none';
+            ui.columnEn.style.display = 'block';
+            ui.langToggle.innerHTML = '<i class="fas fa-language"></i> Español';
+            // First time switching to English, load its news
+            if (renderedOffsets.en === 0) {
+                preload('en').then(() => renderArticles('en'));
+            }
+        } else {
+            ui.columnEn.style.display = 'none';
+            ui.columnEs.style.display = 'block';
+            ui.langToggle.innerHTML = '<i class="fas fa-language"></i> English';
+        }
+    });
+
+    ui.backButton.addEventListener('click', () => {
+        ui.columnEn.style.display = 'none';
+        ui.columnEs.style.display = 'block';
+        ui.langToggle.innerHTML = '<i class="fas fa-language"></i> English';
+    });
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('api-status-panel').style.display = 'block';
+        // Initial load for Spanish
+        preload('es').then(() => {
+            renderArticles('es');
+            // Start preloading more in the background
+            preload('es');
+        });
+    });
+  </script>
+</body>
+</html>
