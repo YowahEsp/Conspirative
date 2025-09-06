@@ -6,36 +6,93 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
     :root {
-      --bg: #f7f9fc;
-      --card: #fff;
-      --accent: #5c6bc0;
-      --text: #333;
-      --muted: #777;
-      --column-bg-es: #e8f0fe;
-      --column-bg-en: #fce8e8;
+      --bg: #0d1117;
+      --card: #161b22;
+      --accent: #ff5e57;
+      --text: #f0f6fc;
+      --muted: #8b949e;
+      --column-bg-es: rgba(56, 139, 253, 0.1);
+      --column-bg-en: rgba(248, 81, 73, 0.1);
+      --conspiracy-pattern: repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(255, 94, 87, 0.05) 5px, rgba(255, 94, 87, 0.05) 10px);
     }
+    
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    body{
-      font-family: 'Poppins', sans-serif;
-      background: var(--bg);
+    
+    body {
+      font-family: 'Share Tech Mono', monospace;
+      background-color: var(--bg);
+      background-image: 
+        url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ff5e57' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E"),
+        var(--conspiracy-pattern);
       color: var(--text);
       padding: 20px 10px;
+      line-height: 1.6;
     }
-    header{
+    
+    header {
       text-align: center;
       margin-bottom: 30px;
+      position: relative;
+      border: 1px solid var(--accent);
+      padding: 20px;
+      background: rgba(22, 27, 34, 0.8);
+      box-shadow: 0 0 15px rgba(255, 94, 87, 0.3);
     }
-    header h1{
-      font-size: 1.6rem;
-      font-weight: 600;
+    
+    header h1 {
+      font-family: 'Special Elite', cursive;
+      font-size: 1.8rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent);
+      margin-bottom: 10px;
+      text-shadow: 0 0 5px rgba(255, 94, 87, 0.5);
     }
-    header p{ color: var(--muted); font-size: 0.9rem; }
+    
+    header p { 
+      color: var(--muted); 
+      font-size: 0.9rem; 
+    }
+    
+    .classified-banner {
+      background: var(--accent);
+      color: #000;
+      padding: 8px;
+      text-align: center;
+      font-family: 'Special Elite', cursive;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-size: 1.1rem;
+      margin: 20px 0;
+      position: relative;
+      overflow: hidden;
+      border-top: 2px solid #000;
+      border-bottom: 2px solid #000;
+    }
+    
+    .classified-banner::before, .classified-banner::after {
+      content: "••••••••••••••••••••••••••••••••••••••••";
+      position: absolute;
+      top: 0;
+      font-size: 0.6rem;
+      letter-spacing: 0;
+      opacity: 0.7;
+    }
+    
+    .classified-banner::before {
+      left: 10px;
+    }
+    
+    .classified-banner::after {
+      right: 10px;
+    }
 
     /* Botón flotante de idioma */
     #lang-toggle {
@@ -44,36 +101,66 @@
       right: 20px;
       z-index: 999;
       background: var(--accent);
-      color: #fff;
-      border: none;
+      color: #000;
+      border: 1px solid #000;
       border-radius: 50%;
       width: 56px;
       height: 56px;
       font-size: 1.3rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,.25);
+      box-shadow: 0 0 10px rgba(255, 94, 87, 0.7);
       cursor: pointer;
       transition: transform .3s;
+      font-family: 'Special Elite', cursive;
     }
-    #lang-toggle:hover { transform: scale(1.1); }
+    
+    #lang-toggle:hover { 
+      transform: scale(1.1); 
+      box-shadow: 0 0 15px rgba(255, 94, 87, 0.9);
+    }
 
-    .columns-container{
+    .columns-container {
       display: flex;
       flex-direction: column;
       gap: 25px;
       max-width: 1400px;
       margin: auto;
     }
-    .column{
+    
+    .column {
       background: var(--card);
-      border-radius: 12px;
+      border-radius: 5px;
       padding: 15px;
-      box-shadow: 0 4px 12px rgba(0,0,0,.08);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 94, 87, 0.3);
+      position: relative;
+      overflow: hidden;
     }
-    .column-es{ background: var(--column-bg-es); }
-    .column-en{ background: var(--column-bg-en); display: none; } /* oculta inglés por defecto */
-    .show-both .column-en{ display: block; }
+    
+    .column::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent);
+    }
+    
+    .column-es { 
+      background: var(--column-bg-es); 
+      border: 1px dashed rgba(56, 139, 253, 0.5);
+    }
+    
+    .column-en { 
+      background: var(--column-bg-en); 
+      display: none;
+      border: 1px dashed rgba(248, 81, 73, 0.5);
+    }
+    
+    .show-both .column-en { display: block; }
 
-    .column-header{
+    .column-header {
       display: flex;
       align-items: center;
       gap: 8px;
@@ -81,53 +168,84 @@
       padding-bottom: 8px;
       border-bottom: 2px solid var(--accent);
     }
-    .column-header h2{ font-size: 1.1rem; }
+    
+    .column-header h2 { 
+      font-size: 1.1rem; 
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-family: 'Special Elite', cursive;
+      color: var(--accent);
+    }
 
-    .news-grid{
+    .news-grid {
       display: grid;
       grid-template-columns: 1fr;
       gap: 15px;
     }
-    .card{
-      background: var(--card);
-      border-radius: 12px;
+    
+    .card {
+      background: rgba(13, 17, 23, 0.7);
+      border-radius: 5px;
       overflow: hidden;
-      box-shadow: 0 2px 6px rgba(0,0,0,.06);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
       transition: .3s;
       display: flex;
       flex-direction: column;
+      border: 1px solid rgba(255, 94, 87, 0.2);
+      position: relative;
     }
-    .card:hover{
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0,0,0,.1);
+    
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(255, 94, 87, 0.3);
+      border: 1px solid var(--accent);
     }
-    .card img{
+    
+    .card img {
       width: 100%;
       height: 160px;
       object-fit: cover;
+      filter: grayscale(0.3);
+      border-bottom: 1px solid var(--accent);
     }
-    .card-content{
+    
+    .card-content {
       padding: 12px;
       flex: 1;
       display: flex;
       flex-direction: column;
     }
-    .card-content h3{
+    
+    .card-content h3 {
       font-size: 1rem;
       line-height: 1.3;
       margin-bottom: 6px;
+      font-family: 'Special Elite', cursive;
     }
-    .source{
+    
+    .authenticity-badge {
+      background: var(--accent);
+      color: #000;
+      font-size: 0.6rem;
+      padding: 2px 5px;
+      border-radius: 3px;
+      margin-left: 5px;
+      font-family: 'Share Tech Mono', monospace;
+    }
+    
+    .source {
       font-size: .75rem;
       color: var(--muted);
       margin-bottom: 6px;
     }
-    .date{
+    
+    .date {
       font-size: .7rem;
       color: var(--accent);
       margin-bottom: 6px;
     }
-    .description{
+    
+    .description {
       font-size: .8rem;
       color: var(--muted);
       margin-bottom: 8px;
@@ -137,47 +255,96 @@
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
-    .card-content a{
+    
+    .card-content a {
       margin-top: auto;
       color: var(--accent);
       font-weight: 600;
       text-decoration: none;
       font-size: .8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
-    .card-content a:hover{ text-decoration: underline; }
+    
+    .card-content a:hover { 
+      text-decoration: underline;
+      text-shadow: 0 0 5px rgba(255, 94, 87, 0.5);
+    }
 
-    .loading, .error-message{
+    .loading, .error-message {
       text-align: center;
       padding: 40px 10px;
       color: var(--muted);
       font-size: .9rem;
     }
-    .load-more{
+    
+    .load-more {
       display: block;
       margin: 20px auto;
       padding: 10px 24px;
       border: none;
-      border-radius: 30px;
+      border-radius: 3px;
       background: var(--accent);
-      color: #fff;
+      color: #000;
       font-weight: 600;
       cursor: pointer;
       transition: .3s;
+      font-family: 'Special Elite', cursive;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border: 1px solid #000;
     }
-    .load-more:hover{ background: #455a64; }
-    .load-more:disabled{ background: var(--muted); cursor: not-allowed; }
+    
+    .load-more:hover { 
+      background: #ff3838; 
+      box-shadow: 0 0 10px rgba(255, 94, 87, 0.7);
+    }
+    
+    .load-more:disabled { 
+      background: var(--muted); 
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    /* Efectos de texto parpadeante */
+    .blinking-text {
+      animation: blink 2s infinite;
+    }
+    
+    @keyframes blink {
+      0% { opacity: 1; }
+      50% { opacity: 0.3; }
+      100% { opacity: 1; }
+    }
+
+    /* Sello clasificado */
+    .classified-stamp {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      opacity: 0.1;
+      font-size: 2rem;
+      transform: rotate(15deg);
+      pointer-events: none;
+      z-index: 0;
+      font-family: 'Special Elite', cursive;
+      color: var(--accent);
+    }
 
     /* Escritorio */
-    @media (min-width: 768px){
-      body{ padding: 30px 15px; }
-      .columns-container{ flex-direction: row; }
-      .column{ flex: 1; min-width: 300px; }
-      header h1{ font-size: 2.2rem; }
-      .column-header h2{ font-size: 1.3rem; }
+    @media (min-width: 768px) {
+      body { padding: 30px 15px; }
+      .columns-container { flex-direction: row; }
+      .column { flex: 1; min-width: 300px; }
+      header h1 { font-size: 2.5rem; }
+      .column-header h2 { font-size: 1.3rem; }
+      .news-grid { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
 </head>
 <body>
+  <div class="classified-stamp">CLASIFICADO</div>
+  
   <header>
     <h1><i class="fas fa-eye"></i> Noticias sobre Conspiraciones y Teorías Alternativas</h1>
     <p>Últimas novedades acerca de teorías conspirativas y enfoques alternativos</p>
@@ -185,6 +352,10 @@
       <i class="fas fa-shield-alt"></i> Todas las noticias provienen de fuentes legítimas y verificadas
     </p>
   </header>
+
+  <div class="classified-banner blinking-text">
+    5G • MIND CONTROL • AREA 51 • COVID-19 • THE STARE • THE START
+  </div>
 
   <div id="api-status" class="loading" style="display: none;">
     <i class="fas fa-check-circle"></i> Conectado a APIs de noticias en tiempo real
@@ -364,7 +535,7 @@
       });
     }
 
-    /* ===== CARGA Y “CARGAR MÁS” ===== */
+    /* ===== CARGA Y "CARGAR MÁS" ===== */
     async function loadAndShowArticles() {
       if (isLoading) return;
       isLoading = true;
