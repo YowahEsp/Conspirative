@@ -5,9 +5,7 @@
   <title>Noticias sobre Conspiraciones y Teorías Alternativas</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
@@ -362,7 +360,6 @@
   </div>
 
   <div class="columns-container">
-    <!-- Español -->
     <div class="column column-es">
       <div class="column-header">
         <i class="fas fa-flag"></i>
@@ -373,7 +370,6 @@
       </div>
     </div>
 
-    <!-- English -->
     <div class="column column-en">
       <div class="column-header">
         <i class="fas fa-flag-usa"></i>
@@ -387,7 +383,6 @@
 
   <button id="load-more" class="load-more">Cargar más noticias verificadas</button>
 
-  <!-- Botón flotante de idioma -->
   <button id="lang-toggle" title="Cambiar idioma">
     <i class="fas fa-language"></i>
   </button>
@@ -421,8 +416,29 @@
     let allArticlesEs = [];
     let allArticlesEn = [];
     let isLoading = false;
+    // ===== MODIFICACIÓN INICIO: Añadir Sets para registrar títulos ya vistos =====
+    const seenTitlesEs = new Set();
+    const seenTitlesEn = new Set();
+    // ===== MODIFICACIÓN FIN =====
 
     /* ===== FUNCIONES AUXILIARES ===== */
+
+    // ===== MODIFICACIÓN INICIO: Función para normalizar títulos =====
+    /**
+     * Simplifica un título para poder compararlo con otros.
+     * @param {string} title - El título original del artículo.
+     * @returns {string} El título en minúsculas y sin puntuación.
+     */
+    function normalizeTitle(title) {
+      if (!title) return '';
+      // Convierte a minúsculas y quita todo lo que no sea letra, número o espacio.
+      return title
+        .toLowerCase()
+        .replace(/[^\w\s]/gi, '')
+        .trim();
+    }
+    // ===== MODIFICACIÓN FIN =====
+
     function isConspiracyRelated(article) {
       if (!article.title && !article.description) return false;
       const text = (article.title + ' ' + (article.description || '')).toLowerCase();
@@ -500,14 +516,15 @@
 
     /* ===== RENDER ===== */
     function renderArticles(articles, container, lang) {
-      if (!articles.length) {
+      if (!articles.length && container.querySelector('.loading')) {
         container.innerHTML = `<div class="error-message">
           <i class="fas fa-exclamation-circle"></i>
           ${lang === 'es' ? 'No se encontraron noticias en este momento.' : 'No news found at this time.'}
         </div>`;
         return;
       }
-      container.innerHTML = '';
+      
+      const fragment = document.createDocumentFragment();
       articles.forEach((art, idx) => {
         const card = document.createElement('div');
         card.className = 'card';
@@ -526,13 +543,16 @@
         `;
         card.style.opacity = '0';
         card.style.transform = 'translateY(20px)';
-        container.appendChild(card);
+        fragment.appendChild(card);
+        
         setTimeout(() => {
           card.style.transition = 'opacity .3s, transform .3s';
           card.style.opacity = '1';
           card.style.transform = 'translateY(0)';
         }, idx * 100);
       });
+      container.innerHTML = '';
+      container.appendChild(fragment);
     }
 
     /* ===== CARGA Y "CARGAR MÁS" ===== */
@@ -548,18 +568,42 @@
           fetchNews('es', currentPageEs),
           fetchNews('en', currentPageEn)
         ]);
-        const uniqueEs = newEs.filter(n => !allArticlesEs.some(e => e.url === n.url));
-        const uniqueEn = newEn.filter(n => !allArticlesEn.some(e => e.url === n.url));
+        
+        // ===== MODIFICACIÓN INICIO: Filtrar por título normalizado =====
+        const uniqueEs = [];
+        newEs.forEach(article => {
+            const normalized = normalizeTitle(article.title);
+            // Comprueba si el título es válido y no ha sido visto antes
+            if (normalized && !seenTitlesEs.has(normalized)) {
+                uniqueEs.push(article);
+                seenTitlesEs.add(normalized); // Añade el nuevo título al registro
+            }
+        });
+
+        const uniqueEn = [];
+        newEn.forEach(article => {
+            const normalized = normalizeTitle(article.title);
+            if (normalized && !seenTitlesEn.has(normalized)) {
+                uniqueEn.push(article);
+                seenTitlesEn.add(normalized);
+            }
+        });
+        // ===== MODIFICACIÓN FIN =====
+
         if (uniqueEs.length) allArticlesEs.push(...uniqueEs);
         if (uniqueEn.length) allArticlesEn.push(...uniqueEn);
+        
+        // Solo renderiza la página actual
+        const startEs = (currentPageEs - 1) * articlesPerPage;
+        const startEn = (currentPageEn - 1) * articlesPerPage;
+        
+        renderArticles(allArticlesEs, newsEsContainer, 'es');
+        renderArticles(allArticlesEn, newsEnContainer, 'en');
 
-        renderArticles(allArticlesEs.slice(0, currentPageEs * articlesPerPage), newsEsContainer, 'es');
-        renderArticles(allArticlesEn.slice(0, currentPageEn * articlesPerPage), newsEnContainer, 'en');
-
-        const hasMore = uniqueEs.length || uniqueEn.length;
+        const hasMore = uniqueEs.length > 0 || uniqueEn.length > 0;
         if (hasMore) {
-          if (uniqueEs.length) currentPageEs++;
-          if (uniqueEn.length) currentPageEn++;
+          if(uniqueEs.length > 0) currentPageEs++;
+          if(uniqueEn.length > 0) currentPageEn++;
           loadMoreBtn.disabled = false;
           loadMoreBtn.textContent = 'Cargar más noticias verificadas';
           loadMoreBtn.style.display = 'block';
