@@ -1,654 +1,675 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Noticias sobre Conspiraciones y Teorías Alternativas</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<title>Noticias sobre Conspiraciones y Teorías Alternativas</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+--bg: #0d1117;
+--card: #161b22;
+--accent: #ff5e57;
+--text: #f0f6fc;
+--muted: #8b949e;
+--column-bg-es: rgba(56, 139, 253, 0.1);
+--column-bg-en: rgba(248, 81, 73, 0.1);
+--conspiracy-pattern: repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(255, 94, 87, 0.05) 5px, rgba(255, 94, 87, 0.05) 10px);
+}
 
-  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-  <style>
-    :root {
-      --bg: #0d1117;
-      --card: #161b22;
-      --accent: #ff5e57;
-      --text: #f0f6fc;
-      --muted: #8b949e;
-      --column-bg-es: rgba(56, 139, 253, 0.1);
-      --column-bg-en: rgba(248, 81, 73, 0.1);
-      --conspiracy-pattern: repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(255, 94, 87, 0.05) 5px, rgba(255, 94, 87, 0.05) 10px);
-    }
-    
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    
-    body {
-      font-family: 'Share Tech Mono', monospace;
-      background-color: var(--bg);
-      background-image: 
-        url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ff5e57' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E"),
-        var(--conspiracy-pattern);
-      color: var(--text);
-      padding: 20px 10px;
-      line-height: 1.6;
-    }
-    
-    header {
-      text-align: center;
-      margin-bottom: 30px;
-      position: relative;
-      border: 1px solid var(--accent);
-      padding: 20px;
-      background: rgba(22, 27, 34, 0.8);
-      box-shadow: 0 0 15px rgba(255, 94, 87, 0.3);
-    }
-    
-    header h1 {
-      font-family: 'Special Elite', cursive;
-      font-size: 1.8rem;
-      font-weight: bold;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      color: var(--accent);
-      margin-bottom: 10px;
-      text-shadow: 0 0 5px rgba(255, 94, 87, 0.5);
-    }
-    
-    header p { 
-      color: var(--muted); 
-      font-size: 0.9rem; 
-    }
-    
-    .classified-banner {
-      background: var(--accent);
-      color: #000;
-      padding: 8px;
-      text-align: center;
-      font-family: 'Special Elite', cursive;
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      font-size: 1.1rem;
-      margin: 20px 0;
-      position: relative;
-      overflow: hidden;
-      border-top: 2px solid #000;
-      border-bottom: 2px solid #000;
-    }
-    
-    .classified-banner::before, .classified-banner::after {
-      content: "••••••••••••••••••••••••••••••••••••••••";
-      position: absolute;
-      top: 0;
-      font-size: 0.6rem;
-      letter-spacing: 0;
-      opacity: 0.7;
-    }
-    
-    .classified-banner::before {
-      left: 10px;
-    }
-    
-    .classified-banner::after {
-      right: 10px;
-    }
+body {
+font-family: 'Share Tech Mono', monospace;
+background-color: var(--bg);
+background-image:
+url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7-7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ff5e57' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E"),
+var(--conspiracy-pattern);
+color: var(--text);
+padding: 20px 10px;
+line-height: 1.6;
+}
 
-    /* Botón flotante de idioma */
-    #lang-toggle {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 999;
-      background: var(--accent);
-      color: #000;
-      border: 1px solid #000;
-      border-radius: 50%;
-      width: 56px;
-      height: 56px;
-      font-size: 1.3rem;
-      box-shadow: 0 0 10px rgba(255, 94, 87, 0.7);
-      cursor: pointer;
-      transition: transform .3s;
-      font-family: 'Special Elite', cursive;
-    }
-    
-    #lang-toggle:hover { 
-      transform: scale(1.1); 
-      box-shadow: 0 0 15px rgba(255, 94, 87, 0.9);
-    }
+header {
+text-align: center;
+margin-bottom: 30px;
+position: relative;
+border: 1px solid var(--accent);
+padding: 20px;
+background: rgba(22, 27, 34, 0.8);
+box-shadow: 0 0 15px rgba(255, 94, 87, 0.3);
+}
 
-    .columns-container {
-      display: flex;
-      flex-direction: column;
-      gap: 25px;
-      max-width: 1400px;
-      margin: auto;
-    }
-    
-    .column {
-      background: var(--card);
-      border-radius: 5px;
-      padding: 15px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-      border: 1px solid rgba(255, 94, 87, 0.3);
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .column::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: var(--accent);
-      box-shadow: 0 0 10px var(--accent);
-    }
-    
-    .column-es { 
-      background: var(--column-bg-es); 
-      border: 1px dashed rgba(56, 139, 253, 0.5);
-    }
-    
-    .column-en { 
-      background: var(--column-bg-en); 
-      display: none;
-      border: 1px dashed rgba(248, 81, 73, 0.5);
-    }
-    
-    .show-both .column-en { display: block; }
+header h1 {
+font-family: 'Special Elite', cursive;
+font-size: 1.8rem;
+font-weight: bold;
+text-transform: uppercase;
+letter-spacing: 2px;
+color: var(--accent);
+margin-bottom: 10px;
+text-shadow: 0 0 5px rgba(255, 94, 87, 0.5);
+}
 
-    .column-header {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 15px;
-      padding-bottom: 8px;
-      border-bottom: 2px solid var(--accent);
-    }
-    
-    .column-header h2 { 
-      font-size: 1.1rem; 
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      font-family: 'Special Elite', cursive;
-      color: var(--accent);
-    }
+header p {
+color: var(--muted);
+font-size: 0.9rem;
+}
 
-    .news-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 15px;
-    }
-    
-    .card {
-      background: rgba(13, 17, 23, 0.7);
-      border-radius: 5px;
-      overflow: hidden;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-      transition: .3s;
-      display: flex;
-      flex-direction: column;
-      border: 1px solid rgba(255, 94, 87, 0.2);
-      position: relative;
-    }
-    
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 5px 15px rgba(255, 94, 87, 0.3);
-      border: 1px solid var(--accent);
-    }
-    
-    .card img {
-      width: 100%;
-      height: 160px;
-      object-fit: cover;
-      filter: grayscale(0.3);
-      border-bottom: 1px solid var(--accent);
-    }
-    
-    .card-content {
-      padding: 12px;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-    
-    .card-content h3 {
-      font-size: 1rem;
-      line-height: 1.3;
-      margin-bottom: 6px;
-      font-family: 'Special Elite', cursive;
-    }
-    
-    .authenticity-badge {
-      background: var(--accent);
-      color: #000;
-      font-size: 0.6rem;
-      padding: 2px 5px;
-      border-radius: 3px;
-      margin-left: 5px;
-      font-family: 'Share Tech Mono', monospace;
-    }
-    
-    .source {
-      font-size: .75rem;
-      color: var(--muted);
-      margin-bottom: 6px;
-    }
-    
-    .date {
-      font-size: .7rem;
-      color: var(--accent);
-      margin-bottom: 6px;
-    }
-    
-    .description {
-      font-size: .8rem;
-      color: var(--muted);
-      margin-bottom: 8px;
-      flex-grow: 1;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-    
-    .card-content a {
-      margin-top: auto;
-      color: var(--accent);
-      font-weight: 600;
-      text-decoration: none;
-      font-size: .8rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-    
-    .card-content a:hover { 
-      text-decoration: underline;
-      text-shadow: 0 0 5px rgba(255, 94, 87, 0.5);
-    }
+.classified-banner {
+background: var(--accent);
+color: #000;
+padding: 8px;
+text-align: center;
+font-family: 'Special Elite', cursive;
+text-transform: uppercase;
+letter-spacing: 3px;
+font-size: 1.1rem;
+margin: 20px 0;
+position: relative;
+overflow: hidden;
+border-top: 2px solid #000;
+border-bottom: 2px solid #000;
+}
 
-    .loading, .error-message {
-      text-align: center;
-      padding: 40px 10px;
-      color: var(--muted);
-      font-size: .9rem;
-    }
-    
-    .load-more {
-      display: block;
-      margin: 20px auto;
-      padding: 10px 24px;
-      border: none;
-      border-radius: 3px;
-      background: var(--accent);
-      color: #000;
-      font-weight: 600;
-      cursor: pointer;
-      transition: .3s;
-      font-family: 'Special Elite', cursive;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      border: 1px solid #000;
-    }
-    
-    .load-more:hover { 
-      background: #ff3838; 
-      box-shadow: 0 0 10px rgba(255, 94, 87, 0.7);
-    }
-    
-    .load-more:disabled { 
-      background: var(--muted); 
-      cursor: not-allowed;
-      box-shadow: none;
-    }
+.classified-banner::before, .classified-banner::after {
+content: "••••••••••••••••••••••••••••••••";
+position: absolute;
+top: 0;
+font-size: 0.6rem;
+letter-spacing: 0;
+opacity: 0.7;
+}
 
-    /* Efectos de texto parpadeante */
-    .blinking-text {
-      animation: blink 2s infinite;
-    }
-    
-    @keyframes blink {
-      0% { opacity: 1; }
-      50% { opacity: 0.3; }
-      100% { opacity: 1; }
-    }
+.classified-banner::before {
+left: 10px;
+}
 
-    /* Sello clasificado */
-    .classified-stamp {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      opacity: 0.1;
-      font-size: 2rem;
-      transform: rotate(15deg);
-      pointer-events: none;
-      z-index: 0;
-      font-family: 'Special Elite', cursive;
-      color: var(--accent);
-    }
+.classified-banner::after {
+right: 10px;
+}
+#lang-toggle {
+position: fixed;
+bottom: 20px;
+right: 20px;
+z-index: 999;
+background: var(--accent);
+color: #000;
+border: 1px solid #000;
+border-radius: 50%;
+width: 56px;
+height: 56px;
+font-size: 1.3rem;
+box-shadow: 0 0 10px rgba(255, 94, 87, 0.7);
+cursor: pointer;
+transition: transform .3s;
+font-family: 'Special Elite', cursive;
+}
 
-    /* Escritorio */
-    @media (min-width: 768px) {
-      body { padding: 30px 15px; }
-      .columns-container { flex-direction: row; }
-      .column { flex: 1; min-width: 300px; }
-      header h1 { font-size: 2.5rem; }
-      .column-header h2 { font-size: 1.3rem; }
-      .news-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-  </style>
+#lang-toggle:hover {
+transform: scale(1.1);
+box-shadow: 0 0 15px rgba(255, 94, 87, 0.9);
+}
+.columns-container {
+display: flex;
+flex-direction: column;
+gap: 25px;
+max-width: 1400px;
+margin: auto;
+}
+
+.column {
+background: var(--card);
+border-radius: 5px;
+padding: 15px;
+box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+border: 1px solid rgba(255, 94, 87, 0.3);
+position: relative;
+overflow: hidden;
+}
+
+.column::before {
+content: "";
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+height: 3px;
+background: var(--accent);
+box-shadow: 0 0 10px var(--accent);
+}
+
+.column-es {
+background: var(--column-bg-es);
+border: 1px dashed rgba(56, 139, 253, 0.5);
+}
+
+.column-en {
+background: var(--column-bg-en);
+display: none;
+border: 1px dashed rgba(248, 81, 73, 0.5);
+}
+
+.show-both .column-en { display: block; }
+.column-header {
+display: flex;
+align-items: center;
+gap: 8px;
+margin-bottom: 15px;
+padding-bottom: 8px;
+border-bottom: 2px solid var(--accent);
+}
+
+.column-header h2 {
+font-size: 1.1rem;
+text-transform: uppercase;
+letter-spacing: 1px;
+font-family: 'Special Elite', cursive;
+color: var(--accent);
+}
+.news-grid {
+display: grid;
+grid-template-columns: 1fr;
+gap: 15px;
+}
+
+.card {
+background: rgba(13, 17, 23, 0.7);
+border-radius: 5px;
+overflow: hidden;
+box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+transition: .3s;
+display: flex;
+flex-direction: column;
+border: 1px solid rgba(255, 94, 87, 0.2);
+position: relative;
+}
+
+.card:hover {
+transform: translateY(-5px);
+box-shadow: 0 5px 15px rgba(255, 94, 87, 0.3);
+border: 1px solid var(--accent);
+}
+
+.card img {
+width: 100%;
+height: 160px;
+object-fit: cover;
+filter: grayscale(0.3);
+border-bottom: 1px solid var(--accent);
+}
+
+.card-content {
+padding: 12px;
+flex: 1;
+display: flex;
+flex-direction: column;
+}
+
+.card-content h3 {
+font-size: 1rem;
+line-height: 1.3;
+margin-bottom: 6px;
+font-family: 'Special Elite', cursive;
+}
+
+.authenticity-badge {
+background: var(--accent);
+color: #000;
+font-size: 0.6rem;
+padding: 2px 5px;
+border-radius: 3px;
+margin-left: 5px;
+font-family: 'Share Tech Mono', monospace;
+}
+
+.source {
+font-size: .75rem;
+color: var(--muted);
+margin-bottom: 6px;
+}
+
+.date {
+font-size: .7rem;
+color: var(--accent);
+margin-bottom: 6px;
+}
+
+.description {
+font-size: .8rem;
+color: var(--muted);
+margin-bottom: 8px;
+flex-grow: 1;
+display: -webkit-box;
+-webkit-line-clamp: 3;
+-webkit-box-orient: vertical;
+overflow: hidden;
+}
+
+.card-content a {
+margin-top: auto;
+color: var(--accent);
+font-weight: 600;
+text-decoration: none;
+font-size: .8rem;
+text-transform: uppercase;
+letter-spacing: 1px;
+}
+
+.card-content a:hover {
+text-decoration: underline;
+text-shadow: 0 0 5px rgba(255, 94, 87, 0.5);
+}
+.loading, .error-message {
+text-align: center;
+padding: 40px 10px;
+color: var(--muted);
+font-size: .9rem;
+}
+
+.load-more {
+display: block;
+margin: 20px auto;
+padding: 10px 24px;
+border: none;
+border-radius: 3px;
+background: var(--accent);
+color: #000;
+font-weight: 600;
+cursor: pointer;
+transition: .3s;
+font-family: 'Special Elite', cursive;
+text-transform: uppercase;
+letter-spacing: 1px;
+border: 1px solid #000;
+}
+
+.load-more:hover {
+background: #ff3838;
+box-shadow: 0 0 10px rgba(255, 94, 87, 0.7);
+}
+
+.load-more:disabled {
+background: var(--muted);
+cursor: not-allowed;
+box-shadow: none;
+}
+.blinking-text {
+animation: blink 2s infinite;
+}
+
+@keyframes blink {
+0% { opacity: 1; }
+50% { opacity: 0.3; }
+100% { opacity: 1; }
+}
+.classified-stamp {
+position: absolute;
+top: 20px;
+right: 20px;
+opacity: 0.1;
+font-size: 2rem;
+transform: rotate(15deg);
+pointer-events: none;
+z-index: 0;
+font-family: 'Special Elite', cursive;
+color: var(--accent);
+}
+@media (min-width: 768px) {
+body { padding: 30px 15px; }
+.columns-container { flex-direction: row; }
+.column { flex: 1; min-width: 300px; }
+header h1 { font-size: 2.5rem; }
+.column-header h2 { font-size: 1.3rem; }
+.news-grid { grid-template-columns: repeat(2, 1fr); }
+}</style>
+
 </head>
 <body>
-  <div class="classified-stamp">CLASIFICADO</div>
-  
-  <header>
-    <h1><i class="fas fa-eye"></i> Noticias sobre Conspiraciones y Teorías Alternativas</h1>
-    <p>Últimas novedades acerca de teorías conspirativas y enfoques alternativos</p>
-    <p style="font-size: 0.8rem; color: var(--muted); margin-top: 6px;">
-      <i class="fas fa-shield-alt"></i> Todas las noticias provienen de fuentes legítimas y verificadas
-    </p>
-  </header>
+<div class="classified-stamp">CLASIFICADO</div>
 
-  <div class="classified-banner blinking-text">
-    5G • MIND CONTROL • AREA 51 • COVID-19 • THE STARE • THE START
-  </div>
+<header>
+<h1><i class="fas fa-eye"></i> Noticias sobre Conspiraciones y Teorías Alternativas</h1>
+<p>Últimas novedades acerca de teorías conspirativas y enfoques alternativos</p>
+<p style="font-size: 0.8rem; color: var(--muted); margin-top: 6px;">
+<i class="fas fa-shield-alt"></i> Todas las noticias provienen de fuentes legítimas y verificadas
+</p>
+</header>
 
-  <div id="api-status" class="loading" style="display: none;">
-    <i class="fas fa-check-circle"></i> Conectado a APIs de noticias en tiempo real
-  </div>
+<div class="classified-banner blinking-text">
+5G • MIND CONTROL • AREA 51 • COVID-19 • THE STARE • THE START
+</div>
 
-  <div class="columns-container">
-    <div class="column column-es">
-      <div class="column-header">
-        <i class="fas fa-flag"></i>
-        <h2>Noticias en Español</h2>
-      </div>
-      <div id="news-es" class="news-grid">
-        <div class="loading"><i class="fas fa-spinner fa-spin"></i> Cargando noticias verificadas…</div>
-      </div>
-    </div>
+<div id="api-status" class="loading" style="display: none;">
+<i class="fas fa-check-circle"></i> Conectado a APIs y fuentes RSS en tiempo real
+</div>
 
-    <div class="column column-en">
-      <div class="column-header">
-        <i class="fas fa-flag-usa"></i>
-        <h2>News in English</h2>
-      </div>
-      <div id="news-en" class="news-grid">
-        <div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading verified news…</div>
-      </div>
-    </div>
-  </div>
+<div class="columns-container">
+<div class="column column-es">
+<div class="column-header">
+<i class="fas fa-flag"></i>
+<h2>Noticias en Español</h2>
+</div>
+<div id="news-es" class="news-grid">
+<div class="loading"><i class="fas fa-spinner fa-spin"></i> Cargando noticias verificadas…</div>
+</div>
+</div>
 
-  <button id="load-more" class="load-more">Cargar más noticias verificadas</button>
+<div class="column column-en">
+<div class="column-header">
+<i class="fas fa-flag-usa"></i>
+<h2>News in English</h2>
+</div>
+<div id="news-en" class="news-grid">
+<div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading verified news…</div>
+</div>
+</div>
+</div>
+<button id="load-more" class="load-more">Cargar más noticias verificadas</button>
+<button id="lang-toggle" title="Cambiar idioma">
+<i class="fas fa-language"></i>
+</button>
 
-  <button id="lang-toggle" title="Cambiar idioma">
-    <i class="fas fa-language"></i>
-  </button>
+<script>
+/* ===== CONFIGURACIÓN DE APIS Y FUENTES ===== */
+const API_KEYS = {
+    GNEWS: '42dd93284a0abf72a9a646d3b4a9c33e',
+    NEWSAPI: 'aaf83dcbd8694668ad89247b959db678',
+    NEWSDATA: 'pub_a6e9ca27cc1644bf9a1cff0b8686b3eb'
+};
 
-  <script>
-    /* ===== CONFIGURACIÓN DE APIS ===== */
-    const API_KEYS = {
-      GNEWS: '42dd93284a0abf72a9a646d3b4a9c33e',
-      NEWSAPI: 'aaf83dcbd8694668ad89247b959db678',
-      NEWSDATA: 'pub_a6e9ca27cc1644bf9a1cff0b8686b3eb'
-    };
+const CORS_PROXY = 'https://corsproxy.io/?';
 
-    const articlesPerPage = 6;
-    const conspiracyKeywords = [
-      'conspiración','conspiracy','teoría','theory','alternativa','alternative','secreto','secret',
-      'deep state','nuevo orden mundial','new world order','illuminati','ufos','ufo','extraterrestres',
-      'aliens','cover-up','ocultismo','occult','hidden truth','verdad oculta','shadow government',
-      'gobierno en la sombra','elite control','control elite','masonería','freemasonry','qanon',
-      'q-anon','planificación','plot','scheme','manipulación','manipulation'
-    ];
+// ===== NUEVAS FUENTES RSS =====
+const RSS_FEEDS_ES = [
+    { url: 'https://codigooculto.com/feed/', name: 'Código Oculto' },
+    { url: 'https://www.mundodesconocido.es/feed', name: 'Mundo Desconocido' },
+    { url: 'https://veritasboss.com/feed/', name: 'Veritas Boss' },
+    { url: 'https://es.theepochtimes.com/rss.xml', name: 'La Gran Época' },
+    { url: 'https://www.mundodesconocido.es/foro/index.php?action=.xml;type=rss2', name: 'Foro Mundo Desconocido' },
+    { url: 'https://foro.ufopolis.com/feed.php', name: 'Foro Ufopolis' }
+];
 
-    /* ===== REFERENCIAS DOM ===== */
-    const newsEsContainer = document.getElementById('news-es');
-    const newsEnContainer = document.getElementById('news-en');
-    const loadMoreBtn = document.getElementById('load-more');
-    const apiStatus = document.getElementById('api-status');
+const RSS_FEEDS_EN = [
+    { url: 'https://vigilantcitizen.com/feed/', name: 'Vigilant Citizen' },
+    { url: 'https://www.corbettreport.com/feed/', name: 'The Corbett Report' },
+    { url: 'https://www.reddit.com/r/conspiracy/.rss', name: 'r/conspiracy' },
+    { url: 'https://www.reddit.com/r/HighStrangeness/.rss', name: 'r/HighStrangeness' },
+    { url: 'https://www.reddit.com/r/UFOs/.rss', name: 'r/UFOs' },
+    { url: 'https://www.reddit.com/r/UAP/.rss', name: 'r/UAP' },
+    { url: 'https://www.reddit.com/r/AlternativeHistory/.rss', name: 'r/AlternativeHistory' }
+];
+// =============================
 
-    /* ===== ESTADO GLOBAL ===== */
-    let currentPageEs = 1;
-    let currentPageEn = 1;
-    let allArticlesEs = [];
-    let allArticlesEn = [];
-    let isLoading = false;
-    // ===== MODIFICACIÓN INICIO: Añadir Sets para registrar títulos ya vistos =====
-    const seenTitlesEs = new Set();
-    const seenTitlesEn = new Set();
-    // ===== MODIFICACIÓN FIN =====
+const articlesPerPage = 12; // Aumentado para más variedad
+const conspiracyKeywords = [
+    'conspiración','conspiracy','teoría','theory','alternativa','alternative','secreto','secret',
+    'deep state','nuevo orden mundial','new world order','illuminati','ufos','ufo','extraterrestres',
+    'aliens','cover-up','ocultismo','occult','hidden truth','verdad oculta','shadow government',
+    'gobierno en la sombra','elite control','control elite','masonería','freemasonry','qanon',
+    'q-anon','planificación','plot','scheme','manipulación','manipulation'
+];
 
-    /* ===== FUNCIONES AUXILIARES ===== */
+/* ===== REFERENCIAS DOM ===== */
+const newsEsContainer = document.getElementById('news-es');
+const newsEnContainer = document.getElementById('news-en');
+const loadMoreBtn = document.getElementById('load-more');
+const apiStatus = document.getElementById('api-status');
 
-    // ===== MODIFICACIÓN INICIO: Función para normalizar títulos =====
-    /**
-     * Simplifica un título para poder compararlo con otros.
-     * @param {string} title - El título original del artículo.
-     * @returns {string} El título en minúsculas y sin puntuación.
-     */
-    function normalizeTitle(title) {
-      if (!title) return '';
-      // Convierte a minúsculas y quita todo lo que no sea letra, número o espacio.
-      return title
-        .toLowerCase()
-        .replace(/[^\w\s]/gi, '')
-        .trim();
+/* ===== ESTADO GLOBAL ===== */
+let currentPage = 1;
+let uniqueArticlesEs = [];
+let uniqueArticlesEn = [];
+let isLoading = false;
+
+/* ===== FUNCIONES AUXILIARES ===== */
+function normalizeTitle(title) {
+    if (!title) return '';
+    return title.toLowerCase().replace(/[^\w\s]/gi, '').trim();
+}
+
+function getImageUrl(article, item) {
+    // Prioridad para imágenes de APIs
+    if (article.urlToImage || article.image || article.image_url) {
+        return article.urlToImage || article.image || article.image_url;
     }
-    // ===== MODIFICACIÓN FIN =====
-
-    function isConspiracyRelated(article) {
-      if (!article.title && !article.description) return false;
-      const text = (article.title + ' ' + (article.description || '')).toLowerCase();
-      return conspiracyKeywords.some(kw => text.includes(kw.toLowerCase()));
+    // Buscar en contenido de RSS (Reddit a menudo tiene miniaturas aquí)
+    if (item) {
+        const content = item.querySelector("content")?.textContent || item.querySelector("description")?.textContent || '';
+        const imgMatch = content.match(/<img[^>]+src="([^">]+)"/);
+        if (imgMatch && imgMatch[1]) {
+            return imgMatch[1];
+        }
     }
+    // Fallback
+    return 'https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=400&h=250&fit=crop&auto=format&q=80';
+}
 
-    function getImageUrl(article) {
-      return article.urlToImage || article.image || article.image_url || article.urlToimage ||
-             'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&h=250&fit=crop&auto=format&q=80';
-    }
+function extractDescription(item) {
+    const content = item.querySelector("description")?.textContent || item.querySelector("content")?.textContent || '';
+    // Limpiar HTML y acortar
+    const div = document.createElement('div');
+    div.innerHTML = content;
+    return div.textContent.trim().substring(0, 200) + (div.textContent.length > 200 ? '...' : '');
+}
 
-    /* ===== LLAMADAS A APIS ===== */
-    async function fetchFromGNews(lang, page = 1) {
-      try {
+/* ===== LLAMADAS A FUENTES ===== */
+async function fetchFromGNews(lang) {
+    try {
         const query = lang === 'es'
-          ? 'conspiración OR "teoría conspirativa" OR "nuevo orden mundial" OR illuminati OR ufos'
-          : 'conspiracy OR "conspiracy theory" OR "new world order" OR illuminati OR ufo OR "deep state" OR qanon OR "shadow government"';
-        const country = lang === 'es' ? 'es' : 'us';
-        const url = `https://gnews.io/api/v4/search?q=${encodeURIComponent(query)}&lang=${lang}&country=${country}&max=20&page=${page}&apikey=${API_KEYS.GNEWS}`;
+        ? 'conspiración OR "teoría conspirativa" OR "nuevo orden mundial"'
+        : 'conspiracy OR "conspiracy theory" OR "new world order" OR "deep state"';
+        const url = `https://gnews.io/api/v4/search?q=${encodeURIComponent(query)}&lang=${lang}&max=20&apikey=${API_KEYS.GNEWS}`;
         const res = await fetch(url);
+        if (!res.ok) throw new Error(`GNews failed: ${res.status}`);
         const data = await res.json();
-        return (data.articles || [])
-          .filter(a => a.title && a.url && a.source && !a.title.toLowerCase().includes('removed'))
-          .map(a => ({ ...a, urlToImage: getImageUrl(a) }));
-      } catch { return []; }
-    }
+        return (data.articles || []).map(a => ({ ...a, urlToImage: getImageUrl(a) }));
+    } catch(e) { console.error(e); return []; }
+}
 
-    async function fetchFromNewsAPI(lang, page = 1) {
-      try {
-        const query = lang === 'es'
-          ? 'conspiración OR "teoría conspirativa" OR "nuevo orden mundial" OR illuminati OR ufos'
-          : 'conspiracy OR "conspiracy theory" OR "new world order" OR illuminati OR ufo OR "deep state" OR qanon';
-        const from = new Date(Date.now() - 30*24*60*60*1000).toISOString().split('T')[0];
-        const proxy = 'https://corsproxy.io/?';
-        const target = `https://newsapi.org/v2/everything?q=${encodeURIComponent(query)}&language=${lang}&from=${from}&sortBy=publishedAt&pageSize=30&page=${page}&apiKey=${API_KEYS.NEWSAPI}`;
-        const res = await fetch(proxy + encodeURIComponent(target));
+async function fetchFromNewsAPI(lang) {
+    try {
+        const query = lang === 'es' ? 'conspiración OR "teoría conspirativa"' : 'conspiracy OR "conspiracy theory"';
+        const target = `https://newsapi.org/v2/everything?q=${encodeURIComponent(query)}&language=${lang}&sortBy=publishedAt&pageSize=20&apiKey=${API_KEYS.NEWSAPI}`;
+        const res = await fetch(CORS_PROXY + encodeURIComponent(target));
+        if (!res.ok) throw new Error(`NewsAPI failed: ${res.status}`);
         const data = await res.json();
-        return (data.articles || [])
-          .filter(a => a.title && a.url && a.source && !a.title.toLowerCase().includes('removed'))
-          .map(a => ({ ...a, urlToImage: getImageUrl(a) }));
-      } catch { return []; }
+        return (data.articles || []).map(a => ({ ...a, urlToImage: getImageUrl(a) }));
+    } catch(e) { console.error(e); return []; }
+}
+
+async function fetchFromRSS(feed) {
+    try {
+        const res = await fetch(CORS_PROXY + encodeURIComponent(feed.url));
+        if (!res.ok) throw new Error(`RSS fetch failed for ${feed.name}: ${res.status}`);
+
+        const xmlText = await res.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(xmlText, "application/xml");
+
+        const items = Array.from(doc.querySelectorAll("item, entry"));
+
+        return items.map(item => {
+            const title = item.querySelector("title")?.textContent || 'Sin título';
+            const link = item.querySelector("link")?.getAttribute('href') || item.querySelector("link")?.textContent || '';
+            const pubDate = item.querySelector("pubDate")?.textContent || item.querySelector("published")?.textContent || new Date().toISOString();
+
+            const article = {
+                title: title,
+                url: link,
+                publishedAt: new Date(pubDate).toISOString(),
+                description: extractDescription(item),
+                source: { name: feed.name }
+            };
+            article.urlToImage = getImageUrl({}, item);
+            return article;
+        });
+    } catch (e) {
+        console.error(`Error fetching from ${feed.name}:`, e);
+        return [];
+    }
+}
+
+async function fetchNews(lang) {
+    let fetchPromises = [];
+
+    fetchPromises.push(fetchFromGNews(lang));
+    fetchPromises.push(fetchFromNewsAPI(lang));
+
+    const rssFeeds = lang === 'es' ? RSS_FEEDS_ES : RSS_FEEDS_EN;
+    rssFeeds.forEach(feed => {
+        fetchPromises.push(fetchFromRSS(feed));
+    });
+
+    const results = await Promise.allSettled(fetchPromises);
+
+    let allFetchedArticles = [];
+    results.forEach(result => {
+        if (result.status === 'fulfilled' && Array.isArray(result.value)) {
+            allFetchedArticles.push(...result.value);
+        }
+    });
+
+    allFetchedArticles.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
+
+    return allFetchedArticles.filter(a => a.title && a.url && a.source && !a.title.toLowerCase().includes('[removed]'));
+}
+
+/* ===== RENDER ===== */
+function renderArticles(articles, container, lang) {
+    if (container.querySelector('.loading')) {
+        container.innerHTML = '';
     }
 
-    async function fetchFromNewsData(lang) {
-      try {
-        const query = lang === 'es'
-          ? 'conspiración,teoría conspirativa,nuevo orden mundial,illuminati,ufos'
-          : 'conspiracy,conspiracy theory,new world order,illuminati,ufo,deep state';
-        const language = lang === 'es' ? 'es' : 'en';
-        const url = `https://newsdata.io/api/1/news?apikey=${API_KEYS.NEWSDATA}&q=${encodeURIComponent(query)}&language=${language}&category=world`;
-        const res = await fetch(url);
-        const data = await res.json();
-        return (data.results || [])
-          .filter(a => a.title && a.link && a.source_id && !a.title.toLowerCase().includes('removed'))
-          .map(a => ({
-            title: a.title,
-            description: a.description,
-            url: a.link,
-            urlToImage: getImageUrl(a),
-            publishedAt: a.pubDate,
-            source: { name: a.source_id }
-          }));
-      } catch { return []; }
-    }
-
-    async function fetchNews(lang, page = 1) {
-      let articles = [];
-      articles = await fetchFromGNews(lang, page);
-      if (articles.length) return articles;
-      articles = await fetchFromNewsAPI(lang, page);
-      if (articles.length) return articles;
-      articles = await fetchFromNewsData(lang);
-      return articles;
-    }
-
-    /* ===== RENDER ===== */
-    function renderArticles(articles, container, lang) {
-      if (!articles.length && container.querySelector('.loading')) {
-        container.innerHTML = `<div class="error-message">
-          <i class="fas fa-exclamation-circle"></i>
-          ${lang === 'es' ? 'No se encontraron noticias en este momento.' : 'No news found at this time.'}
-        </div>`;
-        return;
-      }
-      
-      const fragment = document.createDocumentFragment();
-      articles.forEach((art, idx) => {
+    const fragment = document.createDocumentFragment();
+    articles.forEach((art, idx) => {
         const card = document.createElement('div');
         card.className = 'card';
         const date = new Date(art.publishedAt).toLocaleDateString(lang === 'es' ? 'es-ES' : 'en-US',
-          { year: 'numeric', month: 'long', day: 'numeric' });
-        const fallback = 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&h=250&fit=crop&auto=format&q=80';
+        { year: 'numeric', month: 'long', day: 'numeric' });
+        const fallback = 'https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=400&h=250&fit=crop&auto=format&q=80';
+
         card.innerHTML = `
-          <img src="${art.urlToImage || fallback}" alt="${art.title}" loading="lazy" onerror="this.src='${fallback}'">
-          <div class="card-content">
-            <span class="date">${date}</span>
-            <h3>${art.title} <span class="authenticity-badge">✓ Verificada</span></h3>
-            <div class="source"><i class="fas fa-newspaper"></i> ${art.source.name || 'Unknown'}</div>
-            ${art.description ? `<div class="description">${art.description}</div>` : ''}
-            <a href="${art.url}" target="_blank" rel="noopener noreferrer">${lang === 'es' ? 'Leer más →' : 'Read more →'}</a>
-          </div>
+            <img src="${art.urlToImage || fallback}" alt="${art.title}" loading="lazy" onerror="this.src='${fallback}'">
+            <div class="card-content">
+                <span class="date">${date}</span>
+                <h3>${art.title} <span class="authenticity-badge">✓ Verificada</span></h3>
+                <div class="source"><i class="fas fa-newspaper"></i> ${art.source.name || 'Unknown'}</div>
+                ${art.description ? `<div class="description">${art.description}</div>` : ''}
+                <a href="${art.url}" target="_blank" rel="noopener noreferrer">${lang === 'es' ? 'Leer más →' : 'Read more →'}</a>
+            </div>
         `;
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(20px)';
         fragment.appendChild(card);
-        
-        setTimeout(() => {
-          card.style.transition = 'opacity .3s, transform .3s';
-          card.style.opacity = '1';
-          card.style.transform = 'translateY(0)';
-        }, idx * 100);
-      });
-      container.innerHTML = '';
-      container.appendChild(fragment);
+    });
+
+    container.appendChild(fragment);
+
+    if (container.children.length === 0 && !isLoading) {
+        container.innerHTML = `<div class="error-message">
+            <i class="fas fa-exclamation-circle"></i>
+            ${lang === 'es' ? 'No se encontraron noticias nuevas.' : 'No new news found.'}
+        </div>`;
+    }
+}
+
+/* ===== CARGA Y "CARGAR MÁS" ===== */
+async function loadAndShowArticles(isInitialLoad = false) {
+    if (isLoading) return;
+    isLoading = true;
+    loadMoreBtn.disabled = true;
+    loadMoreBtn.textContent = 'Cargando…';
+
+    if (isInitialLoad) {
+        apiStatus.style.display = 'block';
     }
 
-    /* ===== CARGA Y "CARGAR MÁS" ===== */
-    async function loadAndShowArticles() {
-      if (isLoading) return;
-      isLoading = true;
-      loadMoreBtn.disabled = true;
-      loadMoreBtn.textContent = 'Cargando…';
-      apiStatus.style.display = 'block';
+    try {
+        if (isInitialLoad) {
+            currentPage = 1;
+            newsEsContainer.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Cargando noticias verificadas…</div>';
+            newsEnContainer.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading verified news…</div>';
+            
+            const [fetchedEs, fetchedEn] = await Promise.all([fetchNews('es'), fetchNews('en')]);
 
-      try {
-        const [newEs, newEn] = await Promise.all([
-          fetchNews('es', currentPageEs),
-          fetchNews('en', currentPageEn)
-        ]);
-        
-        // ===== MODIFICACIÓN INICIO: Filtrar por título normalizado =====
-        const uniqueEs = [];
-        newEs.forEach(article => {
-            const normalized = normalizeTitle(article.title);
-            // Comprueba si el título es válido y no ha sido visto antes
-            if (normalized && !seenTitlesEs.has(normalized)) {
-                uniqueEs.push(article);
-                seenTitlesEs.add(normalized); // Añade el nuevo título al registro
-            }
-        });
+            const seenTitlesEs = new Set();
+            uniqueArticlesEs = fetchedEs.filter(article => {
+                const normalized = normalizeTitle(article.title);
+                if (normalized && !seenTitlesEs.has(normalized)) {
+                    seenTitlesEs.add(normalized);
+                    return true;
+                }
+                return false;
+            });
 
-        const uniqueEn = [];
-        newEn.forEach(article => {
-            const normalized = normalizeTitle(article.title);
-            if (normalized && !seenTitlesEn.has(normalized)) {
-                uniqueEn.push(article);
-                seenTitlesEn.add(normalized);
-            }
-        });
-        // ===== MODIFICACIÓN FIN =====
+            const seenTitlesEn = new Set();
+            uniqueArticlesEn = fetchedEn.filter(article => {
+                const normalized = normalizeTitle(article.title);
+                if (normalized && !seenTitlesEn.has(normalized)) {
+                    seenTitlesEn.add(normalized);
+                    return true;
+                }
+                return false;
+            });
+            
+            newsEsContainer.innerHTML = '';
+            newsEnContainer.innerHTML = '';
+        }
 
-        if (uniqueEs.length) allArticlesEs.push(...uniqueEs);
-        if (uniqueEn.length) allArticlesEn.push(...uniqueEn);
-        
-        // Solo renderiza la página actual
-        const startEs = (currentPageEs - 1) * articlesPerPage;
-        const startEn = (currentPageEn - 1) * articlesPerPage;
-        
-        renderArticles(allArticlesEs, newsEsContainer, 'es');
-        renderArticles(allArticlesEn, newsEnContainer, 'en');
+        const start = (currentPage - 1) * articlesPerPage;
+        const end = currentPage * articlesPerPage;
 
-        const hasMore = uniqueEs.length > 0 || uniqueEn.length > 0;
+        const articlesToRenderEs = uniqueArticlesEs.slice(start, end);
+        const articlesToRenderEn = uniqueArticlesEn.slice(start, end);
+
+        renderArticles(articlesToRenderEs, newsEsContainer, 'es');
+        renderArticles(articlesToRenderEn, newsEnContainer, 'en');
+
+        const hasMore = (end < uniqueArticlesEs.length) || (end < uniqueArticlesEn.length);
+
         if (hasMore) {
-          if(uniqueEs.length > 0) currentPageEs++;
-          if(uniqueEn.length > 0) currentPageEn++;
-          loadMoreBtn.disabled = false;
-          loadMoreBtn.textContent = 'Cargar más noticias verificadas';
-          loadMoreBtn.style.display = 'block';
+            currentPage++;
+            loadMoreBtn.disabled = false;
+            loadMoreBtn.textContent = 'Cargar más noticias verificadas';
+            loadMoreBtn.style.display = 'block';
         } else {
-          loadMoreBtn.style.display = 'none';
+            loadMoreBtn.style.display = 'none';
         }
-      } catch (err) {
+    } catch (err) {
         console.error(err);
-        if (!allArticlesEs.length && !allArticlesEn.length) {
-          newsEsContainer.innerHTML = '<div class="error-message"><i class="fas fa-exclamation-triangle"></i> Error al conectar.</div>';
-          newsEnContainer.innerHTML = '<div class="error-message"><i class="fas fa-exclamation-triangle"></i> Connection error.</div>';
-        }
-        loadMoreBtn.disabled = false;
-        loadMoreBtn.textContent = 'Cargar más noticias verificadas';
-      } finally {
+        newsEsContainer.innerHTML = '<div class="error-message"><i class="fas fa-exclamation-triangle"></i> Error al conectar.</div>';
+        newsEnContainer.innerHTML = '<div class="error-message"><i class="fas fa-exclamation-triangle"></i> Connection error.</div>';
+    } finally {
         isLoading = false;
-      }
     }
+}
 
-    loadMoreBtn.addEventListener('click', loadAndShowArticles);
-    loadAndShowArticles();
+loadMoreBtn.addEventListener('click', () => loadAndShowArticles(false));
+loadAndShowArticles(true);
 
-    /* ===== BOTÓN DE IDIOMA ===== */
-    const toggleBtn = document.getElementById('lang-toggle');
-    const container = document.querySelector('.columns-container');
-    let currentMode = 'es'; // español solo por defecto
+/* ===== BOTÓN DE IDIOMA ===== */
+const toggleBtn = document.getElementById('lang-toggle');
+const container = document.querySelector('.columns-container');
+let currentMode = 'es';
 
-    toggleBtn.addEventListener('click', () => {
-      if (currentMode === 'es') {
+toggleBtn.addEventListener('click', () => {
+    if (currentMode === 'es') {
         container.classList.remove('show-both');
         document.querySelector('.column-es').style.display = 'none';
         document.querySelector('.column-en').style.display = 'block';
         currentMode = 'en';
-      } else if (currentMode === 'en') {
+    } else if (currentMode === 'en') {
         container.classList.add('show-both');
         document.querySelector('.column-es').style.display = 'block';
         document.querySelector('.column-en').style.display = 'block';
         currentMode = 'both';
-      } else {
+    } else {
         container.classList.remove('show-both');
         document.querySelector('.column-es').style.display = 'block';
         document.querySelector('.column-en').style.display = 'none';
         currentMode = 'es';
-      }
-    });
-  </script>
+    }
+});
+</script>
 </body>
 </html>
