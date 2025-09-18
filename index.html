@@ -316,6 +316,36 @@ z-index: 0;
 font-family: 'Special Elite', cursive;
 color: var(--accent);
 }
+
+/* ===== NUEVO ESTILO PARA EL BOTÓN DE TRADUCCIÓN ===== */
+.translate-btn {
+    background-color: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: 4px 8px;
+    font-size: 0.7rem;
+    font-family: 'Special Elite', cursive;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    align-self: flex-start;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.translate-btn:hover {
+    background-color: var(--accent);
+    color: #000;
+}
+
+.translate-btn:disabled {
+    border-color: var(--muted);
+    color: var(--muted);
+    cursor: not-allowed;
+    background-color: transparent;
+}
+/* ======================================================= */
+
+
 @media (min-width: 768px) {
 body { padding: 30px 15px; }
 .columns-container { flex-direction: row; }
@@ -402,7 +432,7 @@ const RSS_FEEDS_EN = [
 ];
 // =============================
 
-const articlesPerPage = 12; // Aumentado para más variedad
+const articlesPerPage = 12;
 const conspiracyKeywords = [
     'conspiración','conspiracy','teoría','theory','alternativa','alternative','secreto','secret',
     'deep state','nuevo orden mundial','new world order','illuminati','ufos','ufo','extraterrestres',
@@ -430,11 +460,9 @@ function normalizeTitle(title) {
 }
 
 function getImageUrl(article, item) {
-    // Prioridad para imágenes de APIs
     if (article.urlToImage || article.image || article.image_url) {
         return article.urlToImage || article.image || article.image_url;
     }
-    // Buscar en contenido de RSS (Reddit a menudo tiene miniaturas aquí)
     if (item) {
         const content = item.querySelector("content")?.textContent || item.querySelector("description")?.textContent || '';
         const imgMatch = content.match(/<img[^>]+src="([^">]+)"/);
@@ -442,13 +470,11 @@ function getImageUrl(article, item) {
             return imgMatch[1];
         }
     }
-    // Fallback
     return 'https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=400&h=250&fit=crop&auto=format&q=80';
 }
 
 function extractDescription(item) {
     const content = item.querySelector("description")?.textContent || item.querySelector("content")?.textContent || '';
-    // Limpiar HTML y acortar
     const div = document.createElement('div');
     div.innerHTML = content;
     return div.textContent.trim().substring(0, 200) + (div.textContent.length > 200 ? '...' : '');
@@ -550,6 +576,16 @@ function renderArticles(articles, container, lang) {
         { year: 'numeric', month: 'long', day: 'numeric' });
         const fallback = 'https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=400&h=250&fit=crop&auto=format&q=80';
 
+        // ===== MODIFICACIÓN: Añadir botón de traducción para noticias en inglés =====
+        const translateButtonHtml = lang === 'en' ? `
+            <button class="translate-btn"
+                    data-title="${art.title.replace(/"/g, '&quot;')}"
+                    data-desc="${(art.description || '').replace(/"/g, '&quot;')}">
+                <i class="fas fa-language"></i> Traducir al español
+            </button>
+        ` : '';
+        // =========================================================================
+
         card.innerHTML = `
             <img src="${art.urlToImage || fallback}" alt="${art.title}" loading="lazy" onerror="this.src='${fallback}'">
             <div class="card-content">
@@ -557,6 +593,7 @@ function renderArticles(articles, container, lang) {
                 <h3>${art.title} <span class="authenticity-badge">✓ Verificada</span></h3>
                 <div class="source"><i class="fas fa-newspaper"></i> ${art.source.name || 'Unknown'}</div>
                 ${art.description ? `<div class="description">${art.description}</div>` : ''}
+                ${translateButtonHtml}
                 <a href="${art.url}" target="_blank" rel="noopener noreferrer">${lang === 'es' ? 'Leer más →' : 'Read more →'}</a>
             </div>
         `;
@@ -643,6 +680,62 @@ async function loadAndShowArticles(isInitialLoad = false) {
         isLoading = false;
     }
 }
+
+/* ===== NUEVA FUNCIONALIDAD DE TRADUCCIÓN ===== */
+async function handleTranslation(event) {
+    if (!event.target.classList.contains('translate-btn')) return;
+
+    const btn = event.target;
+    const card = btn.closest('.card');
+    const titleEl = card.querySelector('h3');
+    const descEl = card.querySelector('.description');
+
+    const originalTitle = btn.dataset.title;
+    const originalDesc = btn.dataset.desc;
+
+    if (!originalTitle && !originalDesc) return;
+
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Traduciendo...';
+
+    try {
+        // Combinamos título y descripción para una sola llamada a la API
+        const combinedText = `${originalTitle} ||| ${originalDesc}`;
+        const apiUrl = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(combinedText)}&langpair=en|es`;
+        
+        const response = await fetch(apiUrl);
+        if (!response.ok) throw new Error('Translation API response not OK');
+        
+        const data = await response.json();
+        
+        if (data.responseData && data.responseData.translatedText) {
+            const [translatedTitle, translatedDesc] = data.responseData.translatedText.split(' ||| ');
+            
+            if (titleEl && translatedTitle) {
+                // Mantenemos el badge de "Verificada"
+                titleEl.innerHTML = `${translatedTitle.trim()} <span class="authenticity-badge">✓ Verificada</span>`;
+            }
+            if (descEl && translatedDesc) {
+                descEl.textContent = translatedDesc.trim();
+            }
+            btn.innerHTML = '<i class="fas fa-check"></i> Traducido';
+        } else {
+            throw new Error('Invalid translation data received');
+        }
+    } catch (error) {
+        console.error('Translation failed:', error);
+        btn.innerHTML = '<i class="fas fa-exclamation-circle"></i> Error';
+        // Opcional: Reactivar el botón para reintentar
+        setTimeout(() => {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-language"></i> Traducir al español';
+        }, 3000);
+    }
+}
+
+newsEnContainer.addEventListener('click', handleTranslation);
+// ==============================================
+
 
 loadMoreBtn.addEventListener('click', () => loadAndShowArticles(false));
 loadAndShowArticles(true);
