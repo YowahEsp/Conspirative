@@ -403,32 +403,25 @@ header h1 { font-size: 2.5rem; }
 
 <script>
 /* ===== CONFIGURACIÓN DE APIS Y FUENTES ===== */
-const API_KEYS = {
-    GNEWS: '42dd93284a0abf72a9a646d3b4a9c33e',
-    NEWSAPI: 'aaf83dcbd8694668ad89247b959db678',
-    NEWSDATA: 'pub_a6e9ca27cc1644bf9a1cff0b8686b3eb'
-};
+const PROXY = 'https://noticias-proxy.esperance.workers.dev';
 
-const CORS_PROXY = 'https://corsproxy.io/?';
-
-// ===== NUEVAS FUENTES RSS =====
+// ===== FUENTES RSS (verificadas 18-09-2026) =====
 const RSS_FEEDS_ES = [
     { url: 'https://codigooculto.com/feed/', name: 'Código Oculto' },
-    { url: 'https://www.mundodesconocido.es/feed', name: 'Mundo Desconocido' },
-    { url: 'https://veritasboss.com/feed/', name: 'Veritas Boss' },
-    { url: 'https://es.theepochtimes.com/rss.xml', name: 'La Gran Época' },
-    { url: 'https://www.mundodesconocido.es/foro/index.php?action=.xml;type=rss2', name: 'Foro Mundo Desconocido' },
-    { url: 'https://foro.ufopolis.com/feed.php', name: 'Foro Ufopolis' }
+    { url: 'https://www.mundodesconocido.es/feed', name: 'Mundo Desconocido' }
 ];
 
 const RSS_FEEDS_EN = [
     { url: 'https://vigilantcitizen.com/feed/', name: 'Vigilant Citizen' },
     { url: 'https://www.corbettreport.com/feed/', name: 'The Corbett Report' },
+    { url: 'https://thedebrief.org/feed/', name: 'The Debrief' },
+    { url: 'https://www.snopes.com/feed/', name: 'Snopes' },
     { url: 'https://www.reddit.com/r/conspiracy/.rss', name: 'r/conspiracy' },
     { url: 'https://www.reddit.com/r/HighStrangeness/.rss', name: 'r/HighStrangeness' },
     { url: 'https://www.reddit.com/r/UFOs/.rss', name: 'r/UFOs' },
     { url: 'https://www.reddit.com/r/UAP/.rss', name: 'r/UAP' },
-    { url: 'https://www.reddit.com/r/AlternativeHistory/.rss', name: 'r/AlternativeHistory' }
+    { url: 'https://www.reddit.com/r/AlternativeHistory/.rss', name: 'r/AlternativeHistory' },
+    { url: 'https://www.reddit.com/r/Paranormal/.rss', name: 'r/Paranormal' }
 ];
 // =============================
 
@@ -486,8 +479,7 @@ async function fetchFromGNews(lang) {
         const query = lang === 'es'
         ? 'conspiración OR "teoría conspirativa" OR "nuevo orden mundial"'
         : 'conspiracy OR "conspiracy theory" OR "new world order" OR "deep state"';
-        const url = `https://gnews.io/api/v4/search?q=${encodeURIComponent(query)}&lang=${lang}&max=20&apikey=${API_KEYS.GNEWS}`;
-        const res = await fetch(url);
+        const res = await fetch(`${PROXY}/gnews?q=${encodeURIComponent(query)}&lang=${lang}`);
         if (!res.ok) throw new Error(`GNews failed: ${res.status}`);
         const data = await res.json();
         return (data.articles || []).map(a => ({ ...a, urlToImage: getImageUrl(a) }));
@@ -497,8 +489,7 @@ async function fetchFromGNews(lang) {
 async function fetchFromNewsAPI(lang) {
     try {
         const query = lang === 'es' ? 'conspiración OR "teoría conspirativa"' : 'conspiracy OR "conspiracy theory"';
-        const target = `https://newsapi.org/v2/everything?q=${encodeURIComponent(query)}&language=${lang}&sortBy=publishedAt&pageSize=20&apiKey=${API_KEYS.NEWSAPI}`;
-        const res = await fetch(CORS_PROXY + encodeURIComponent(target));
+        const res = await fetch(`${PROXY}/newsapi?q=${encodeURIComponent(query)}&lang=${lang}`);
         if (!res.ok) throw new Error(`NewsAPI failed: ${res.status}`);
         const data = await res.json();
         return (data.articles || []).map(a => ({ ...a, urlToImage: getImageUrl(a) }));
@@ -507,7 +498,7 @@ async function fetchFromNewsAPI(lang) {
 
 async function fetchFromRSS(feed) {
     try {
-        const res = await fetch(CORS_PROXY + encodeURIComponent(feed.url));
+        const res = await fetch(`${PROXY}/rss?url=${encodeURIComponent(feed.url)}`);
         if (!res.ok) throw new Error(`RSS fetch failed for ${feed.name}: ${res.status}`);
 
         const xmlText = await res.text();
